@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>se.natusoft.tools.fileeditor</groupId>
+    <artifactId>file-editor-maven-support</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+
+    <name>File Editor Maven Support</name>
+
+    <modules>
+        <module>FileEditorMavenSupportPlugin</module>
+        <module>FileEditorMavenSupportScripts</module>
+    </modules>
+
+    <url>https://github.com/tombensve/FileEditorMavenSupport</url>
+
+    <!--
+        Project Information
+    -->
+    <description>
+        Provides a maven plugin for running editing operations on files during a build using
+        FileEditor.
+    </description>
+    <properties>
+        <copyrightYear>2013</copyrightYear>
+        <copyrightHolder>Natusoft AB</copyrightHolder>
+        <copyrightHolderWeb>http://www.natusoft.se/</copyrightHolderWeb>
+    </properties>
+    <organization>
+        <name>${copyrightHolder}</name>
+        <url>${copyrightHolderWeb}</url>
+    </organization>
+    <inceptionYear>${copyrightYear}</inceptionYear>
+    <licenses>
+        <license>
+            <name>Apache 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Tommy Svensson</name>
+            <email>tommy@natusoft.se</email>
+        </developer>
+    </developers>
+
+    <build>
+        <plugins>
+            <!--
+                Copy relevant license files to target on install.
+            -->
+            <plugin>
+                <groupId>se.natusoft.tools.codelicmgr</groupId>
+                <artifactId>CodeLicenseManager-maven-plugin</artifactId>
+                <version>2.0</version>
+
+                <dependencies>
+                    <dependency>
+                        <groupId>se.natusoft.tools.codelicmgr</groupId>
+                        <artifactId>CodeLicenseManager-licenses-common-opensource</artifactId>
+                        <version>2.0</version>
+                    </dependency>
+                </dependencies>
+
+                <executions>
+                    <execution>
+                        <id>install-licence-info</id>
+                        <goals>
+                            <goal>install</goal>
+                        </goals>
+                        <phase>install</phase>
+                        <configuration>
+
+                            <installOptions>
+                                <verbose>true</verbose>
+                                <licenseDir>target/license</licenseDir>
+                                <thirdpartyLicenseDir>target/license/thirdparty</thirdpartyLicenseDir>
+                            </installOptions>
+
+                            <createLicensesMarkdown>true</createLicensesMarkdown>
+                            <markdownTargetSubdir>docs</markdownTargetSubdir>
+                            <markdownLinkPrefix>https://github.com/tombensve/FileEditorMavenSupport/blob/master/docs/</markdownLinkPrefix>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <!--
+    Profiles
+-->
+    <profiles>
+        <profile>
+            <id>generate-docs</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>se.natusoft.tools.doc.markdowndoc</groupId>
+                        <artifactId>markdowndoc-maven-plugin</artifactId>
+                        <version>1.2.9</version>
+
+                        <dependencies>
+                            <dependency>
+                                <groupId>se.natusoft.tools.doc.markdowndoc</groupId>
+                                <artifactId>markdown-doc-lib</artifactId>
+                                <version>1.2.9</version>
+                            </dependency>
+                        </dependencies>
+
+                        <executions>
+                            <execution>
+                                <id>generate-pdf-docs</id>
+                                <goals>
+                                    <goal>doc</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+
+                                    <generatorOptions>
+                                        <generator>pdf</generator>
+                                        <inputPaths>
+                                            Docs/UserGuide.md,
+                                            Docs/licenses.md,
+                                            Docs/Apache-2.0.md
+                                        </inputPaths>
+                                    </generatorOptions>
+
+                                    <pdfGeneratorOptions>
+                                        <resultFile>Docs/FileEditorMavenSupport-UserGuide.pdf</resultFile>
+                                        <pageSize>A4</pageSize>
+                                        <title>File Editor Maven Support</title>
+                                        <subject>User Guide</subject>
+                                        <version>${project.version}</version>
+                                        <author>Tommy Svensson</author>
+                                        <copyright>Copyright © 2013 Natusoft AB</copyright>
+                                        <generateTitlePage>true</generateTitlePage>
+                                        <generateTOC>true</generateTOC>
+                                    </pdfGeneratorOptions>
+
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>generate-html-docs</id>
+                                <goals>
+                                    <goal>doc</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+
+                                    <generatorOptions>
+                                        <generator>html</generator>
+                                        <inputPaths>
+                                            Docs/UserGuide.md,
+                                            Docs/licenses.md,
+                                            Docs/Apache-2.0.md
+                                        </inputPaths>
+                                    </generatorOptions>
+
+                                    <htmlGeneratorOptions>
+                                        <resultFile>Docs/FileEditorMavenSupport-UserGuide.html</resultFile>
+                                        <css>docs.css</css>
+                                        <inlineCSS>true</inlineCSS>
+                                    </htmlGeneratorOptions>
+
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>generate-markdown-docs</id>
+                                <goals>
+                                    <goal>doc</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+
+                                    <generatorOptions>
+                                        <generator>markdown</generator>
+                                        <inputPaths>
+                                            Docs/UserGuide.md,
+                                            Docs/licenses.md,
+                                            Docs/Apache-2.0.md
+                                        </inputPaths>
+                                    </generatorOptions>
+
+                                    <mdGeneratorOptions>
+                                        <resultFile>Docs/FileEditorMavenSupport-UserGuide.md</resultFile>
+                                    </mdGeneratorOptions>
+
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>apply-licence-info</id>
+            <build>
+                <plugins>
+                    <plugin>
+
+                        <groupId>se.natusoft.tools.codelicmgr</groupId>
+                        <artifactId>CodeLicenseManager-maven-plugin</artifactId>
+                        <version>2.0</version>
+
+                        <dependencies>
+                            <dependency>
+                                <groupId>se.natusoft.tools.codelicmgr</groupId>
+                                <artifactId>CodeLicenseManager-licenses-common-opensource</artifactId>
+                                <version>2.0</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>se.natusoft.tools.codelicmgr</groupId>
+                                <artifactId>CodeLicenseManager-source-updater-slashstar-comment</artifactId>
+                                <version>2.0</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>se.natusoft.tools.codelicmgr</groupId>
+                                <artifactId>CodeLicenseManager-source-updater-html-xml</artifactId>
+                                <version>2.0</version>
+                            </dependency>
+                        </dependencies>
+
+                        <configuration>
+                            <project>
+                                <codeVersion>${project.version}</codeVersion>
+                            </project>
+                            <!-- All options are optional. -->
+                            <codeOptions>
+                                <verbose>true</verbose>
+                                <!-- If not set uses extension on source file to resolve. -->
+                                <codeLanguage><!-- by source extension. --></codeLanguage>
+                                <!-- If true updates the license information in source code. -->
+                                <updateLicenseInfo>true</updateLicenseInfo>
+                                <!-- If true updates the copyright information in source code. -->
+                                <updateCopyright>true</updateCopyright>
+                                <!-- If true updates the project information in source code. -->
+                                <updateProject>true</updateProject>
+                                <!-- If true will add authors information to source files that does not have it. This is not always implemented! -->
+                                <addAuthorsBlock>true</addAuthorsBlock>
+                                <!-- The directories to scan for source code to update with project & license information. -->
+                                <sourceCodeDirs>
+                                    src/main/java/**/.*.java,src/test/java/**/.*.java,src/assembly/**/.*.xml
+                                </sourceCodeDirs>
+
+                            </codeOptions>
+
+                            <userData>
+                                <!--name></name>
+                                <value></value-->
+                            </userData>
+
+                        </configuration>
+
+                        <executions>
+                            <execution>
+                                <id>apply-licence-info</id>
+                                <goals>
+                                    <goal>apply</goal>
+                                </goals>
+                                <phase>generate-sources</phase>
+                            </execution>
+                        </executions>
+
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

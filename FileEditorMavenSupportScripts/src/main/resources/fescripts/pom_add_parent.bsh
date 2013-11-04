@@ -1,0 +1,22 @@
+/*
+ * This script adds a parent to the pom.
+ *
+ * It requires the following variables:
+ *   groupId
+ *   artifactId
+ *   version
+ */
+editor.moveToTopOfFile();
+if (editor.find("<project")) {
+
+    if (!editor.findFromCurrent("<parent")) {
+        if (editor.find("<modelVersion")) {
+            editor.insertLine("    <parent>");
+            editor.insertLine("        <groupId>" + groupId + "</groupId>");
+            editor.insertLine("        <artifactId>" + artifactId + "</artifactId>");
+            editor.insertLine("        <version>" + version + "</version>");
+            editor.insertLine("    </parent>");
+        }
+    }
+
+}

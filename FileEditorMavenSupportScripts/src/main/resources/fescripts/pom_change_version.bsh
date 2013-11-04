@@ -1,0 +1,27 @@
+/*
+ * This script replaces the pom version.
+ *
+ * This requires the following variables:
+ *   pomVersion - The new version to set to.
+ *   changeParent - This will be converted to a boolean. If true the parent version
+ *                  will also be changed.
+ */
+editor.moveToTopOfFile();
+if (editor.find("<project")) {
+
+    boolean parent = Boolean.valueOf(changeParent);
+
+    if (parent) {
+        if (editor.findFromCurrent("<parent")) {
+            if (editor.findFromCurrent("<version>")) {
+                editor.replaceCurrentLineBetween("<version>", "</version>", pomVersion);
+            }
+        }
+    }
+
+    editor.findFromCurrent("</parent");
+
+    if (editor.findFromCurrent("<version>")) {
+        editor.replaceCurrentLineBetween("<version>", "</version>", pomVersion);
+    }
+}

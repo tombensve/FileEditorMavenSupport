@@ -1,0 +1,17 @@
+/*
+ * This script adds "-SNAPSHOT" to version.
+ */
+editor.moveToTopOfFile();
+if (editor.find("<project")) {
+
+    // Skip to end of parent to avoid finding parent version. If this is not found
+    // the current position is not moved.
+    editor.findFromCurrent("</parent");
+
+    if (editor.findFromCurrent("<version>")) {
+        String version = editor.getCurrentLineBetween("<version>", "</version>");
+        if (!version.endsWith("-SNAPSHOT")) {
+            editor.replaceCurrentLineBetween("<version>", "</version>", version + "-SNAPSHOT");
+        }
+    }
+}
