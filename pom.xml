@@ -125,7 +125,7 @@
                                     <generatorOptions>
                                         <generator>pdf</generator>
                                         <inputPaths>
-                                            Docs/UserGuide.md,
+                                            Docs/src/UserGuide.md,
                                             Docs/licenses.md,
                                             Docs/Apache-2.0.md
                                         </inputPaths>
@@ -156,7 +156,7 @@
                                     <generatorOptions>
                                         <generator>html</generator>
                                         <inputPaths>
-                                            Docs/UserGuide.md,
+                                            Docs/src/UserGuide.md,
                                             Docs/licenses.md,
                                             Docs/Apache-2.0.md
                                         </inputPaths>
@@ -164,7 +164,7 @@
 
                                     <htmlGeneratorOptions>
                                         <resultFile>Docs/FileEditorMavenSupport-UserGuide.html</resultFile>
-                                        <css>docs.css</css>
+                                        <css>Docs/docs.css</css>
                                         <inlineCSS>true</inlineCSS>
                                     </htmlGeneratorOptions>
 
@@ -179,9 +179,9 @@
                                 <configuration>
 
                                     <generatorOptions>
-                                        <generator>markdown</generator>
+                                        <generator>md</generator>
                                         <inputPaths>
-                                            Docs/UserGuide.md,
+                                            Docs/src/UserGuide.md,
                                             Docs/licenses.md,
                                             Docs/Apache-2.0.md
                                         </inputPaths>

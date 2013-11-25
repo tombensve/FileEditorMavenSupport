@@ -34,7 +34,7 @@
  *         2013-10-20: Created!
  *         
  */
-package se.natusoft.maven.plugin;
+package se.natusoft.tools.fileeditor.plugin;
 
 import java.util.Properties;
 
@@ -52,7 +52,7 @@ public class Variables {
     // Methods
     //
 
-    public void setProperty(Variable variable) {
+    public void setVariable(Variable variable) {
         this.properties.setProperty(variable.getName(), variable.getValue());
     }
 

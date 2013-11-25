@@ -34,10 +34,7 @@
  *         2013-10-19: Created!
  *         
  */
-package se.natusoft.maven.plugin;
-
-import se.natusoft.tools.codelicmgr.annotations.*;
-import se.natusoft.tools.codelicmgr.enums.Source;
+package se.natusoft.tools.fileeditor.plugin;
 
 /**
  * This allows providing small test.scripts directly in the configuration and when script
@@ -110,4 +107,49 @@ public class Script {
     public String getScriptFile() {
         return this.scriptFile;
     }
+
+    //
+    // Variables
+    //
+
+    private Variables variables;
+
+    /**
+     * Sets the variables to provide to the script.
+     *
+     * @param variables The variables to provide.
+     */
+    public void setVariables(Variables variables) {
+        this.variables = variables;
+    }
+
+    /**
+     * Returns the variables to return to the script.
+     */
+    public Variables getVariables() {
+        return this.variables;
+    }
+
+    //
+    // artifactId
+    //
+
+    private String forArtifactId = "";
+
+    /**
+     * Sets the artifact id this script applies for. If not set it will apply for all.
+     *
+     * @param forArtifactId
+     */
+    public void setForArtifactId(String forArtifactId) {
+        this.forArtifactId = forArtifactId;
+    }
+
+    /**
+     * Returns the artifact id this script applies for.
+     */
+    public String getForArtifactId() {
+        return this.forArtifactId;
+    }
+
 }

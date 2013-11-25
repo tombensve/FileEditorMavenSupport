@@ -39,9 +39,10 @@ The main reason for making this plugin is that I'm not OK with Sonatypes require
        </executions>
     </plugin>
 
-The _<code>_ and _<scriptFile>_ tags are mutually exclusive. The first provides the code directly in the pom. The second points to a script file that gets executed. 
+The _\<code\>_ and _\<scriptFile\>_ tags are mutually exclusive. The first provides the code directly in the pom. The second points to a script file that gets executed. 
 
-Do note that the _<scriptFile>_ tag can begin with _resource:_ which really beans that it will be looked for within the classpath. Otherwise a _java.io.File_ object will be used to reference the file.
+Do note that the _\<scriptFile\>_ tag can begin with _script:_ which really means that it will be looked for within the classpath in package se.natusoft.tools.fileeditor.scripts. Otherwise a _java.io.File_ object will be used to reference the file.
+
 
 The variables are passed to the script and are only strings. That is, in the Bean Shell script there will be a java.lang.String variable with name _name_ and value _value_.
 
@@ -51,7 +52,7 @@ The following 3 scripts are available in the plugin package.
 
 Anyone that uses this plugin and makes a generally useful editing script, please consider mailing it to me and I will include it in the next version. 
 
-### resource:fescripts/pom_add_parent.bsh
+### script:pom_add_parent.bsh
 
     /*
      * This script adds a parent to the pom.
@@ -75,7 +76,7 @@ Anyone that uses this plugin and makes a generally useful editing script, please
         }
     }
 
-### resource:fescripts/pom_add_snapshot_to_version.bsh
+### script:pom_add_snapshot_to_version.bsh
 
     /*
      * This script adds "-SNAPSHOT" to version.
@@ -95,9 +96,9 @@ Anyone that uses this plugin and makes a generally useful editing script, please
         }
     }
 
-### resource:fescripts/pom-change_version.bsh
+### script:pom-change_version.bsh
 
-This script is generally useful when having multi module projects and you keep the same version for modules. This allows you to put the version in only the top pom. 
+This script is generally useful when having multi module projects and you keep the same version for modules. This allows you to put the version in only the top pom. Do not use \<forActifactId\>...\</forArtifactId\> when using this, otherwise only one pom will be edited. Also note that if you use this, put a \<version\>...\</version\> tag in each pom instead of just inheriting version from parent so that no later \<version\>...\</version\> gets edited instead by accident!
 
     /*
      * This script replaces the pom version.

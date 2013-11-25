@@ -34,37 +34,25 @@
  *         2013-10-20: Created!
  *         
  */
-package se.natusoft.maven.plugin;
+package se.natusoft.tools.fileeditor.plugin;
 
 import junit.framework.TestCase;
-import se.natusoft.maven.plugin.FileEditorMavenPlugin;
-import se.natusoft.maven.plugin.Script;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-import se.natusoft.tools.codelicmgr.annotations.*;
-import se.natusoft.tools.codelicmgr.enums.Source;
 
 // Do note that we run the test here since we cannot do it in the plugin for some strange reason!
 public class FileEditorMavenPluginTest extends TestCase {
 
     private static Scripts scripts = new Scripts();
-    private static Variables vars = new Variables();
 
     private static FileEditorMavenPlugin femp = new FileEditorMavenPlugin() {
 
         @Override
         public Scripts getScripts() {
             return scripts;
-        }
-
-        @Override
-        public Variables getVars() {
-            return vars;
         }
 
         @Override
@@ -77,7 +65,7 @@ public class FileEditorMavenPluginTest extends TestCase {
     "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
     "    xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">\n" +
     "    <modelVersion>4.0.0</modelVersion>\n" +
-    "    <groupId>se.natusoft.maven.plugin</groupId>\n" +
+    "    <groupId>se.natusoft.tools.fileeditor.plugin</groupId>\n" +
     "    <artifactId>file-editor-maven-plugin</artifactId>\n" +
     "    <packaging>maven-plugin</packaging>\n" +
     "    <version>1.0</version>\n" +
@@ -106,25 +94,23 @@ public class FileEditorMavenPluginTest extends TestCase {
 
     public void testChangeVersion() throws Exception {
         Script script = new Script();
-        script.setScriptFile("resource:fescripts/pom_change_version.bsh");
+        script.setScriptFile("script:pom_change_version.bsh");
         File tmpFile = File.createTempFile("fileeditor","test");
         writeFile(tmpFile, testPom);
         script.setSourcePath(tmpFile.getAbsolutePath());
         scripts = new Scripts();
         scripts.addScript(script);
 
-        vars = new Variables();
-        vars.setProperty(new Variable("pomVersion", "2.4.8"));
-        vars.setProperty(new Variable("changeParent", "false"));
+        Variables vars = new Variables();
+        vars.setVariable(new Variable("pomVersion", "2.4.8"));
+        vars.setVariable(new Variable("changeParent", "false"));
+        script.setVariables(vars);
 
         try {
             femp.execute();
 
             String modified = loadFile(tmpFile);
             assertTrue(modified.contains("<version>2.4.8</version>"));
-        }
-        catch (Exception e) {
-            e.printStackTrace();
         }
         finally {
             tmpFile.delete();
@@ -133,17 +119,18 @@ public class FileEditorMavenPluginTest extends TestCase {
 
     public void testAddParent() throws Exception {
         Script script = new Script();
-        script.setScriptFile("resource:fescripts/pom_add_parent.bsh");
+        script.setScriptFile("script:pom_add_parent.bsh");
         File tmpFile = File.createTempFile("fileeditor","test");
         writeFile(tmpFile, testPom);
         script.setSourcePath(tmpFile.getAbsolutePath());
         scripts = new Scripts();
         scripts.addScript(script);
 
-        vars = new Variables();
-        vars.setProperty(new Variable("groupId", "se.natusoft.test"));
-        vars.setProperty(new Variable("artifactId", "test-parent"));
-        vars.setProperty(new Variable("version", "1.2.3"));
+        Variables vars = new Variables();
+        vars.setVariable(new Variable("groupId", "se.natusoft.test"));
+        vars.setVariable(new Variable("artifactId", "test-parent"));
+        vars.setVariable(new Variable("version", "1.2.3"));
+        script.setVariables(vars);
 
         try {
             femp.execute();
@@ -155,9 +142,7 @@ public class FileEditorMavenPluginTest extends TestCase {
             assertTrue(modified.contains("<artifactId>test-parent</artifactId>"));
             assertTrue(modified.contains("<version>1.2.3</version>"));
             assertTrue(modified.contains("<version>1.0</version>"));
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+            assertTrue(modified.indexOf("<version>1.0</version>") > modified.indexOf("<version>1.2.3</version>"));
         }
         finally {
             tmpFile.delete();
@@ -166,14 +151,15 @@ public class FileEditorMavenPluginTest extends TestCase {
 
     public void testAddSnapshot() throws Exception {
         Script script = new Script();
-        script.setScriptFile("resource:fescripts/pom_add_snapshot_to_version.bsh");
+        script.setScriptFile("script:pom_add_snapshot_to_version.bsh");
         File tmpFile = File.createTempFile("fileeditor","test");
         writeFile(tmpFile, testPom);
         script.setSourcePath(tmpFile.getAbsolutePath());
         scripts = new Scripts();
         scripts.addScript(script);
 
-        vars = new Variables();
+        Variables vars = new Variables();
+        script.setVariables(vars);
 
         try {
             femp.execute();
@@ -181,9 +167,6 @@ public class FileEditorMavenPluginTest extends TestCase {
             String modified = loadFile(tmpFile);
             assertTrue(modified.contains("<version>1.0-SNAPSHOT</version>"));
             assertFalse(modified.contains("<version>1.0</version>"));
-        }
-        catch (Exception e) {
-            e.printStackTrace();
         }
         finally {
             tmpFile.delete();

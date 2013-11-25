@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>file-editor-maven-support</artifactId>
         <groupId>se.natusoft.tools.fileeditor</groupId>
+        <artifactId>file-editor-maven-support</artifactId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -16,12 +16,6 @@
     <name>File Editor Maven Support Scripts</name>
 
     <dependencies>
-        <dependency>
-            <groupId>se.natusoft.maven.plugin</groupId>
-            <artifactId>file-editor-maven-support-plugin</artifactId>
-            <version>1.0</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <description>

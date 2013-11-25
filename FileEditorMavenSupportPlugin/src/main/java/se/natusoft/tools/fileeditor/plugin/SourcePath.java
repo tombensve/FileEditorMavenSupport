@@ -34,13 +34,11 @@
  *         2013-10-19: Created!
  *         
  */
-package se.natusoft.maven.plugin;
+package se.natusoft.tools.fileeditor.plugin;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import se.natusoft.tools.codelicmgr.annotations.*;
-import se.natusoft.tools.codelicmgr.enums.Source;
 
 /*
  * Represents a path to source files and supplies functionality to supply all

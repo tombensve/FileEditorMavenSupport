@@ -31,68 +31,43 @@
  * AUTHORS
  *     Tommy Svensson (tommy@natusoft.se)
  *         Changes:
- *         2013-10-20: Created!
+ *         2013-10-19: Created!
  *         
  */
-package se.natusoft.maven.plugin;
+package se.natusoft.tools.fileeditor.plugin;
 
-import se.natusoft.tools.codelicmgr.annotations.*;
-import se.natusoft.tools.codelicmgr.enums.Source;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This represents one property with name and value.
+ * Holds a list of Script entries.
  */
-public class Variable {
-    //
-    // Private Members
-    //
+public class Scripts {
 
-    /** The name of the property. */
-    private String name;
-
-    /** The value of the property. */
-    private String value;
-
-    //
-    // Constructors
-    //
+    private List<Script> scripts = new ArrayList<Script>();
 
     /**
-     * Default constructor used by maven.
-     */
-    public Variable() {}
-
-    /**
-     * Constructor used for tests.
+     * Adds a script.
      *
-     * @param name
-     * @param value
+     * @param script The script to add.
      */
-    public Variable(String name, String value) {
-        this.name = name;
-        this.value = value;
+    public void addScript(Script script) {
+        this.scripts.add(script);
     }
 
-    //
-    // Methods
-    //
-
-    /** The name of the property. */
-    public String getName() {
-        return name;
+    /**
+     * Maven setter. This just calls addScript(script).
+     *
+     * @param script The script to add.
+     */
+    public void setScript(Script script) {
+        addScript(script);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    /**
+     * Returns a list of the config script code blocks to run.
+     */
+    public List<Script> getScripts() {
+        return this.scripts;
     }
-
-    /** The value of the property. */
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
 }
