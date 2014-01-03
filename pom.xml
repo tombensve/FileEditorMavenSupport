@@ -83,7 +83,7 @@
 
                             <createLicensesMarkdown>true</createLicensesMarkdown>
                             <markdownTargetSubdir>docs</markdownTargetSubdir>
-                            <markdownLinkPrefix>https://github.com/tombensve/FileEditorMavenSupport/blob/master/docs/</markdownLinkPrefix>
+                            <markdownLinkPrefix>https://github.com/tombensve/FileEditorMavenSupport/blob/master/Docs/</markdownLinkPrefix>
                         </configuration>
                     </execution>
                 </executions>

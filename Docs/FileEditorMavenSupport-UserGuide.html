@@ -138,7 +138,7 @@
     <pre>
       <code>
     &lt;plugin&gt;
-        &lt;groupId&gt;se.natusoft.tools.fileeditor.plugin&lt;/groupId&gt;
+        &lt;groupId&gt;se.natusoft.maven.plugin&lt;/groupId&gt;
         &lt;artifactId&gt;file-editor-maven-plugin&lt;/artifactId&gt;
         &lt;version&gt;1.0.0&lt;/version&gt;
     
@@ -175,7 +175,7 @@
       The <em>&lt;code&gt;</em> and <em>&lt;scriptFile&gt;</em> tags are mutually exclusive. The first provides the code directly in the pom. The second points to a script file that gets executed.      
     </p>
     <p>
-      Do note that the <em>&lt;scriptFile&gt;</em> tag can begin with <em>resource:</em> which really beans that it will be looked for within the classpath. Otherwise a <em>java.io.File</em> object will be used to reference the file.      
+      Do note that the <em>&lt;scriptFile&gt;</em> tag can begin with <em>script:</em> which really means that it will be looked for within the classpath in package se.natusoft.tools.fileeditor.scripts. Otherwise a <em>java.io.File</em> object will be used to reference the file.      
     </p>
     <p>
       The variables are passed to the script and are only strings. That is, in the Bean Shell script there will be a java.lang.String variable with name <em>name</em> and value <em>value</em>.      
@@ -187,7 +187,7 @@
     <p>
       Anyone that uses this plugin and makes a generally useful editing script, please consider mailing it to me and I will include it in the next version.      
     </p>
-    <H3>resource:fescripts/pom_add_parent.bsh</H3>
+    <H3>script:pom_add_parent.bsh</H3>
     <pre>
       <code>
     /*
@@ -213,7 +213,7 @@
     }
       </code>
     </pre>
-    <H3>resource:fescripts/pom_add_snapshot_to_version.bsh</H3>
+    <H3>script:pom_add_snapshot_to_version.bsh</H3>
     <pre>
       <code>
     /*
@@ -235,9 +235,9 @@
     }
       </code>
     </pre>
-    <H3>resource:fescripts/pom-change_version.bsh</H3>
+    <H3>script:pom-change_version.bsh</H3>
     <p>
-      This script is generally useful when having multi module projects and you keep the same version for modules. This allows you to put the version in only the top pom.      
+      This script is generally useful when having multi module projects and you keep the same version for modules. This allows you to put the version in only the top pom. Do not use &lt;forActifactId&gt;...&lt;/forArtifactId&gt; when using this, otherwise only one pom will be edited. Also note that if you use this, put a &lt;version&gt;...&lt;/version&gt; tag in each pom instead of just inheriting version from parent so that no later &lt;version&gt;...&lt;/version&gt; gets edited instead by accident!      
     </p>
     <pre>
       <code>
@@ -275,15 +275,9 @@
     -->
     <H2>Project License</H2>
     <p>
-      <strong></strong><a href='https://github.com/tombensve/FileEditorMavenSupport/blob/master/docs/Apache-2.0.md' title=''>Apache Software License version 2.0</a><strong></strong>      
+      <strong></strong><a href='https://github.com/tombensve/FileEditorMavenSupport/blob/master/Docs/Apache-2.0.md' title=''>Apache Software License version 2.0</a><strong></strong>      
     </p>
     <H2>Third Party Licenses</H2>
-    <p>
-      <strong></strong><a href='http://www.apache.org/licenses/LICENSE-2.0.txt' title=''>Apache Software License version 2.0</a><strong></strong>      
-    </p>
-    <p>
-      The following third party products are using this license:      
-    </p>
     <!--
       CLM
     -->
