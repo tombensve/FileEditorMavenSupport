@@ -7,41 +7,41 @@ The main reason for making this plugin is that I'm not OK with Sonatypes require
 ## Plugin example
 
     <plugin>
-        <groupId>se.natusoft.maven.plugin</groupId>
-        <artifactId>file-editor-maven-plugin</artifactId>
-        <version>1.0.0</version>
+      <groupId>se.natusoft.maven.plugin</groupId>
+      <artifactId>file-editor-maven-plugin</artifactId>
+      <version>1.0.0</version>
  
-       <executions>
-            <execution>
-                <id>some-good-id</id>
-                <goals>
-                    <goal>edit</goal>
-                </goals>
-                <phase>generate-sources</phase>
-                <configuration>
-                    <scripts>
-                        <script>
-                            <code>
-                                Bean Shell java code ...
-                            </code>
-                            <scriptFile>The path to the bsh script to execute.</scriptFile>
-                            <sourcePath>Path to file to edit</sourcePath>
-                            <variables>
-                                <variable>
-                                    <name>name</name>
-                                    <value>value</value>
-                                </variable>
-                            </variables>
-                        </script>
-                    </scripts>
-                </configuration>
-            </execution>
-       </executions>
+      <executions>
+        <execution>
+          <id>some-good-id</id>
+          <goals>
+            <goal>edit</goal>
+          </goals>
+          <phase>generate-sources</phase>
+          <configuration>
+            <scripts>
+              <script>
+                <code>
+                  Bean Shell java code ...
+                </code>
+                <scriptFile>The path to the bsh script to execute.</scriptFile>
+                <sourcePath>Path to file to edit</sourcePath>
+                <variables>
+                  <variable>
+                    <name>name</name>
+                    <value>value</value>
+                  </variable>
+                </variables>
+              </script>
+            </scripts>
+          </configuration>
+        </execution>
+      </executions>
     </plugin>
 
-The _\<code\>_ and _\<scriptFile\>_ tags are mutually exclusive. The first provides the code directly in the pom. The second points to a script file that gets executed. 
+The _&lt;code&gt;_ and _&lt;scriptFile&gt;_ tags are mutually exclusive. The first provides the code directly in the pom. The second points to a script file that gets executed. 
 
-Do note that the _\<scriptFile\>_ tag can begin with _script:_ which really means that it will be looked for within the classpath in package se.natusoft.tools.fileeditor.scripts. Otherwise a _java.io.File_ object will be used to reference the file.
+Do note that the _&lt;scriptFile&gt;_ tag can begin with _script:_ which really means that it will be looked for within the classpath in package se.natusoft.tools.fileeditor.scripts. Otherwise a _java.io.File_ object will be used to reference the file.
 
 
 The variables are passed to the script and are only strings. That is, in the Bean Shell script there will be a java.lang.String variable with name _name_ and value _value_.
@@ -65,15 +65,15 @@ Anyone that uses this plugin and makes a generally useful editing script, please
     editor.moveToTopOfFile();
     if (editor.find("<project")) {
     
-        if (!editor.findFromCurrent("<parent")) {
-            if (editor.find("<modelVersion")) {
-                editor.insertLine("    <parent>");
-                editor.insertLine("        <groupId>" + groupId + "</groupId>");
-                editor.insertLine("        <artifactId>" + artifactId + "</artifactId>");
-                editor.insertLine("        <version>" + version + "</version>");
-                editor.insertLine("    </parent>");
-            }
+      if (!editor.findFromCurrent("<parent")) {
+        if (editor.find("<modelVersion")) {
+          editor.insertLine("    <parent>");
+          editor.insertLine("        <groupId>" + groupId + "</groupId>");
+          editor.insertLine("        <artifactId>" + artifactId + "</artifactId>");
+          editor.insertLine("        <version>" + version + "</version>");
+          editor.insertLine("    </parent>");
         }
+      }
     }
 
 ### script:pom_add_snapshot_to_version.bsh
@@ -84,21 +84,21 @@ Anyone that uses this plugin and makes a generally useful editing script, please
     editor.moveToTopOfFile();
     if (editor.find("<project")) {
     
-        // Skip to end of parent to avoid finding parent version. If this is not found
-        // the current position is not moved.
-        editor.findFromCurrent("</parent");
+      // Skip to end of parent to avoid finding parent version. If this is not found
+      // the current position is not moved.
+      editor.findFromCurrent("</parent");
     
-        if (editor.findFromCurrent("<version>")) {
-            String version = editor.getCurrentLineBetween("<version>", "</version>");
-            if (!version.endsWith("-SNAPSHOT")) {
-                editor.replaceCurrentLineBetween("<version>", "</version>", version + "-SNAPSHOT");
-            }
+      if (editor.findFromCurrent("<version>")) {
+        String version = editor.getCurrentLineBetween("<version>", "</version>");
+        if (!version.endsWith("-SNAPSHOT")) {
+          editor.replaceCurrentLineBetween("<version>", "</version>", version + "-SNAPSHOT");
         }
+      }
     }
 
 ### script:pom-change_version.bsh
 
-This script is generally useful when having multi module projects and you keep the same version for modules. This allows you to put the version in only the top pom. Do not use \<forActifactId\>...\</forArtifactId\> when using this, otherwise only one pom will be edited. Also note that if you use this, put a \<version\>...\</version\> tag in each pom instead of just inheriting version from parent so that no later \<version\>...\</version\> gets edited instead by accident!
+This script is generally useful when having multi module projects and you keep the same version for modules. This allows you to put the version in only the top pom. Do not use &lt;forActifactId&gt;...&lt;/forArtifactId&gt; when using this, otherwise only one pom will be edited. Also note that if you use this, put a &lt;version&gt;...&lt;/version&gt; tag in each pom instead of just inheriting version from parent so that no later &lt;version&gt;...&lt;/version&gt; gets edited instead by accident!
 
     /*
      * This script replaces the pom version.
@@ -111,20 +111,20 @@ This script is generally useful when having multi module projects and you keep t
     editor.moveToTopOfFile();
     if (editor.find("<project")) {
     
-        boolean parent = Boolean.valueOf(changeParent);
+      boolean parent = Boolean.valueOf(changeParent);
     
-        if (parent) {
-            if (editor.findFromCurrent("<parent")) {
-                if (editor.findFromCurrent("<version>")) {
-                    editor.replaceCurrentLineBetween("<version>", "</version>", pomVersion);
-                }
-            }
-        }
-    
-        editor.findFromCurrent("</parent")
-    
-        if (editor.findFromCurrent("<version>")) {
+      if (parent) {
+        if (editor.findFromCurrent("<parent")) {
+          if (editor.findFromCurrent("<version>")) {
             editor.replaceCurrentLineBetween("<version>", "</version>", pomVersion);
+          }
         }
+      }
+    
+      editor.findFromCurrent("</parent")
+    
+      if (editor.findFromCurrent("<version>")) {
+        editor.replaceCurrentLineBetween("<version>", "</version>", pomVersion);
+      }
     }
 

@@ -138,44 +138,44 @@
     <pre>
       <code>
     &lt;plugin&gt;
-        &lt;groupId&gt;se.natusoft.maven.plugin&lt;/groupId&gt;
-        &lt;artifactId&gt;file-editor-maven-plugin&lt;/artifactId&gt;
-        &lt;version&gt;1.0.0&lt;/version&gt;
+      &lt;groupId&gt;se.natusoft.maven.plugin&lt;/groupId&gt;
+      &lt;artifactId&gt;file-editor-maven-plugin&lt;/artifactId&gt;
+      &lt;version&gt;1.0.0&lt;/version&gt;
     
-       &lt;executions&gt;
-            &lt;execution&gt;
-                &lt;id&gt;some-good-id&lt;/id&gt;
-                &lt;goals&gt;
-                    &lt;goal&gt;edit&lt;/goal&gt;
-                &lt;/goals&gt;
-                &lt;phase&gt;generate-sources&lt;/phase&gt;
-                &lt;configuration&gt;
-                    &lt;scripts&gt;
-                        &lt;script&gt;
-                            &lt;code&gt;
-                                Bean Shell java code ...
-                            &lt;/code&gt;
-                            &lt;scriptFile&gt;The path to the bsh script to execute.&lt;/scriptFile&gt;
-                            &lt;sourcePath&gt;Path to file to edit&lt;/sourcePath&gt;
-                            &lt;variables&gt;
-                                &lt;variable&gt;
-                                    &lt;name&gt;name&lt;/name&gt;
-                                    &lt;value&gt;value&lt;/value&gt;
-                                &lt;/variable&gt;
-                            &lt;/variables&gt;
-                        &lt;/script&gt;
-                    &lt;/scripts&gt;
-                &lt;/configuration&gt;
-            &lt;/execution&gt;
-       &lt;/executions&gt;
+      &lt;executions&gt;
+        &lt;execution&gt;
+          &lt;id&gt;some-good-id&lt;/id&gt;
+          &lt;goals&gt;
+            &lt;goal&gt;edit&lt;/goal&gt;
+          &lt;/goals&gt;
+          &lt;phase&gt;generate-sources&lt;/phase&gt;
+          &lt;configuration&gt;
+            &lt;scripts&gt;
+              &lt;script&gt;
+                &lt;code&gt;
+                  Bean Shell java code ...
+                &lt;/code&gt;
+                &lt;scriptFile&gt;The path to the bsh script to execute.&lt;/scriptFile&gt;
+                &lt;sourcePath&gt;Path to file to edit&lt;/sourcePath&gt;
+                &lt;variables&gt;
+                  &lt;variable&gt;
+                    &lt;name&gt;name&lt;/name&gt;
+                    &lt;value&gt;value&lt;/value&gt;
+                  &lt;/variable&gt;
+                &lt;/variables&gt;
+              &lt;/script&gt;
+            &lt;/scripts&gt;
+          &lt;/configuration&gt;
+        &lt;/execution&gt;
+      &lt;/executions&gt;
     &lt;/plugin&gt;
       </code>
     </pre>
     <p>
-      The <em>&lt;code&gt;</em> and <em>&lt;scriptFile&gt;</em> tags are mutually exclusive. The first provides the code directly in the pom. The second points to a script file that gets executed.      
+      The <em>&lt;code&lt;</em> and <em>&lt;scriptFile&lt;</em> tags are mutually exclusive. The first provides the code directly in the pom. The second points to a script file that gets executed.      
     </p>
     <p>
-      Do note that the <em>&lt;scriptFile&gt;</em> tag can begin with <em>script:</em> which really means that it will be looked for within the classpath in package se.natusoft.tools.fileeditor.scripts. Otherwise a <em>java.io.File</em> object will be used to reference the file.      
+      Do note that the <em>&lt;scriptFile&lt;</em> tag can begin with <em>script:</em> which really means that it will be looked for within the classpath in package se.natusoft.tools.fileeditor.scripts. Otherwise a <em>java.io.File</em> object will be used to reference the file.      
     </p>
     <p>
       The variables are passed to the script and are only strings. That is, in the Bean Shell script there will be a java.lang.String variable with name <em>name</em> and value <em>value</em>.      
@@ -201,15 +201,15 @@
     editor.moveToTopOfFile();
     if (editor.find("&lt;project")) {
     
-        if (!editor.findFromCurrent("&lt;parent")) {
-            if (editor.find("&lt;modelVersion")) {
-                editor.insertLine("    &lt;parent&gt;");
-                editor.insertLine("        &lt;groupId&gt;" + groupId + "&lt;/groupId&gt;");
-                editor.insertLine("        &lt;artifactId&gt;" + artifactId + "&lt;/artifactId&gt;");
-                editor.insertLine("        &lt;version&gt;" + version + "&lt;/version&gt;");
-                editor.insertLine("    &lt;/parent&gt;");
-            }
+      if (!editor.findFromCurrent("&lt;parent")) {
+        if (editor.find("&lt;modelVersion")) {
+          editor.insertLine("    &lt;parent&gt;");
+          editor.insertLine("        &lt;groupId&gt;" + groupId + "&lt;/groupId&gt;");
+          editor.insertLine("        &lt;artifactId&gt;" + artifactId + "&lt;/artifactId&gt;");
+          editor.insertLine("        &lt;version&gt;" + version + "&lt;/version&gt;");
+          editor.insertLine("    &lt;/parent&gt;");
         }
+      }
     }
       </code>
     </pre>
@@ -222,22 +222,22 @@
     editor.moveToTopOfFile();
     if (editor.find("&lt;project")) {
     
-        // Skip to end of parent to avoid finding parent version. If this is not found
-        // the current position is not moved.
-        editor.findFromCurrent("&lt;/parent");
+      // Skip to end of parent to avoid finding parent version. If this is not found
+      // the current position is not moved.
+      editor.findFromCurrent("&lt;/parent");
     
-        if (editor.findFromCurrent("&lt;version&gt;")) {
-            String version = editor.getCurrentLineBetween("&lt;version&gt;", "&lt;/version&gt;");
-            if (!version.endsWith("-SNAPSHOT")) {
-                editor.replaceCurrentLineBetween("&lt;version&gt;", "&lt;/version&gt;", version + "-SNAPSHOT");
-            }
+      if (editor.findFromCurrent("&lt;version&gt;")) {
+        String version = editor.getCurrentLineBetween("&lt;version&gt;", "&lt;/version&gt;");
+        if (!version.endsWith("-SNAPSHOT")) {
+          editor.replaceCurrentLineBetween("&lt;version&gt;", "&lt;/version&gt;", version + "-SNAPSHOT");
         }
+      }
     }
       </code>
     </pre>
     <H3>script:pom-change_version.bsh</H3>
     <p>
-      This script is generally useful when having multi module projects and you keep the same version for modules. This allows you to put the version in only the top pom. Do not use &lt;forActifactId&gt;...&lt;/forArtifactId&gt; when using this, otherwise only one pom will be edited. Also note that if you use this, put a &lt;version&gt;...&lt;/version&gt; tag in each pom instead of just inheriting version from parent so that no later &lt;version&gt;...&lt;/version&gt; gets edited instead by accident!      
+      This script is generally useful when having multi module projects and you keep the same version for modules. This allows you to put the version in only the top pom. Do not use &lt;forActifactId&lt;...&lt;/forArtifactId&lt; when using this, otherwise only one pom will be edited. Also note that if you use this, put a &lt;version&lt;...&lt;/version&lt; tag in each pom instead of just inheriting version from parent so that no later &lt;version&lt;...&lt;/version&lt; gets edited instead by accident!      
     </p>
     <pre>
       <code>
@@ -252,21 +252,21 @@
     editor.moveToTopOfFile();
     if (editor.find("&lt;project")) {
     
-        boolean parent = Boolean.valueOf(changeParent);
+      boolean parent = Boolean.valueOf(changeParent);
     
-        if (parent) {
-            if (editor.findFromCurrent("&lt;parent")) {
-                if (editor.findFromCurrent("&lt;version&gt;")) {
-                    editor.replaceCurrentLineBetween("&lt;version&gt;", "&lt;/version&gt;", pomVersion);
-                }
-            }
-        }
-    
-        editor.findFromCurrent("&lt;/parent")
-    
-        if (editor.findFromCurrent("&lt;version&gt;")) {
+      if (parent) {
+        if (editor.findFromCurrent("&lt;parent")) {
+          if (editor.findFromCurrent("&lt;version&gt;")) {
             editor.replaceCurrentLineBetween("&lt;version&gt;", "&lt;/version&gt;", pomVersion);
+          }
         }
+      }
+    
+      editor.findFromCurrent("&lt;/parent")
+    
+      if (editor.findFromCurrent("&lt;version&gt;")) {
+        editor.replaceCurrentLineBetween("&lt;version&gt;", "&lt;/version&gt;", pomVersion);
+      }
     }
       </code>
     </pre>
