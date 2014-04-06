@@ -55,6 +55,23 @@
     <build>
         <plugins>
             <!--
+                Package sources.
+            -->
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        
+            <!--
                 Copy relevant license files to target on install.
             -->
             <plugin>
@@ -97,8 +114,19 @@
     </build>
 
     <!--
-    Profiles
--->
+        Distribution Management.
+    -->
+    <distributionManagement>
+        <repository>
+            <id>bintray-tommy-maven-FileEditorMavenSupport</id>
+            <name>tommy-maven-FileEditorMavenSupport</name>
+            <url>https://api.bintray.com/maven/tommy/maven/FileEditorMavenSupport</url>
+        </repository>
+    </distributionManagement>
+    
+    <!--
+        Profiles
+    -->
     <profiles>
         <profile>
             <id>generate-docs</id>
@@ -123,7 +151,7 @@
                                 <goals>
                                     <goal>doc</goal>
                                 </goals>
-                                <phase>package</phase>
+                                <phase>install</phase>
                                 <configuration>
 
                                     <generatorOptions>
@@ -154,7 +182,7 @@
                                 <goals>
                                     <goal>doc</goal>
                                 </goals>
-                                <phase>package</phase>
+                                <phase>install</phase>
                                 <configuration>
 
                                     <generatorOptions>
@@ -179,7 +207,7 @@
                                 <goals>
                                     <goal>doc</goal>
                                 </goals>
-                                <phase>package</phase>
+                                <phase>install</phase>
                                 <configuration>
 
                                     <generatorOptions>
@@ -195,6 +223,33 @@
                                         <resultFile>Docs/FileEditorMavenSupport-UserGuide.md</resultFile>
                                     </mdGeneratorOptions>
 
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!--
+                        Attach generated PDF as artifact (for bintray upload).
+                    -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>1.8</version>
+                        <executions>
+                            <execution>
+                                <id>attach-artifacts</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>attach-artifact</goal>
+                                </goals>
+                                <configuration>
+                                    <artifacts>
+                                        <artifact>
+                                            <file>Docs/FileEditorMavenSupport-UserGuide.pdf</file>
+                                            <type>pdf</type>
+                                        </artifact>
+                                    </artifacts>
+                                    <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
                                 </configuration>
                             </execution>
                         </executions>
