@@ -1,17 +1,19 @@
-/*
- * This script adds "-SNAPSHOT" to version.
- */
-editor.moveToTopOfFile();
-if (editor.find("<project")) {
+    /*
+     * This script adds "-SNAPSHOT" to version.
+     *
+     * This script makes the assumption that either the pom is
+     * the top parent and does not have a parent itself in which
+     * case the main model version is updated, otherwise the parent
+     * version is updated. This also assumes that all modules have
+     * the same version as the root pom, and just inherits version
+     * from parent.
+     */
+    editor.moveToTopOfFile();
+    if (editor.find("<project")) {
 
-    // Skip to end of parent to avoid finding parent version. If this is not found
-    // the current position is not moved.
-    editor.findFromCurrent("</parent");
-
-    if (editor.findFromCurrent("<version>")) {
-        String version = editor.getCurrentLineBetween("<version>", "</version>");
-        if (!version.endsWith("-SNAPSHOT")) {
+        if (editor.findFromCurrent("<version>")) {
+            String version = editor.getCurrentLineBetween("<version>", "</version>");
             editor.replaceCurrentLineBetween("<version>", "</version>", version + "-SNAPSHOT");
         }
+
     }
-}

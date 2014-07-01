@@ -1,25 +1,18 @@
 /*
  * This script replaces the pom version.
  *
+ * This script makes the assumption that either the pom is
+ * the top parent and does not have a parent itself in which
+ * case the main model version is updated, otherwise the parent
+ * version is updated. This also assumes that all modules have
+ * the same version as the root pom, and just inherits version
+ * from parent.
+ *
  * This requires the following variables:
  *   pomVersion - The new version to set to.
- *   changeParent - This will be converted to a boolean. If true the parent version
- *                  will also be changed.
  */
 editor.moveToTopOfFile();
 if (editor.find("<project")) {
-
-    boolean parent = Boolean.valueOf(changeParent);
-
-    if (parent) {
-        if (editor.findFromCurrent("<parent")) {
-            if (editor.findFromCurrent("<version>")) {
-                editor.replaceCurrentLineBetween("<version>", "</version>", pomVersion);
-            }
-        }
-    }
-
-    editor.findFromCurrent("</parent");
 
     if (editor.findFromCurrent("<version>")) {
         editor.replaceCurrentLineBetween("<version>", "</version>", pomVersion);

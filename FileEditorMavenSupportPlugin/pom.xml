@@ -5,13 +5,11 @@
     <parent>
 	    <groupId>se.natusoft.tools.fileeditor</groupId>
     	<artifactId>file-editor-maven-support</artifactId>
-    	<version>1.0</version>
+    	<version>1.1</version>
     </parent>
     
-    <groupId>se.natusoft.tools.fileeditor</groupId>
     <artifactId>file-editor-maven-support-plugin</artifactId>
     <packaging>maven-plugin</packaging>
-    <version>1.0</version>
 
     <name>File Editor Maven Support Plugin</name>
 
@@ -25,7 +23,7 @@
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
-            <version>3.0.4</version>
+            <version>3.0.5</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
@@ -35,7 +33,7 @@
         <dependency>
             <groupId>se.natusoft.tools.fileeditor</groupId>
             <artifactId>FileEditor</artifactId>
-            <version>2.0.1</version>
+            <version>${fileeditor.ver}</version>
         </dependency>
         <dependency>
             <groupId>se.natusoft.tools.fileeditor</groupId>

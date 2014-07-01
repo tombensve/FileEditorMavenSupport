@@ -61,7 +61,7 @@ public class FileEditorMavenPluginTest extends TestCase {
         }
     };
 
-    private static String testPom =
+    private static String testPomRoot =
     "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
     "    xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">\n" +
     "    <modelVersion>4.0.0</modelVersion>\n" +
@@ -78,6 +78,29 @@ public class FileEditorMavenPluginTest extends TestCase {
     "    \n" +
     "</project>\n";
 
+    private static String testPomModule =
+            "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
+                    "    xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">\n" +
+                    "    <parent>\n" +
+                    "        <groupId>se.natusoft.tools.fileeditor.plugin</groupId>\n" +
+                    "        <artifactId>file-editor-maven-plugin</artifactId>\n" +
+                    "        <version>1.0</version>\n" +
+                    "    </parent>\n" +
+                    "    \n" +
+                    "    <modelVersion>4.0.0</modelVersion>\n" +
+                    "    \n" +
+                    "    <artifactId>test-artifact</artifactId>\n" +
+                    "    <packaging>maven-plugin</packaging>\n" +
+                    "    \n" +
+                    "    <name>DummyTestPom</name>\n" +
+                    "    \n" +
+                    "    <description>\n" +
+                    "        A dummy pom for testing.\n" +
+                    "    </description>\n" +
+                    "    \n" +
+                    "</project>\n";
+
+
     private void writeFile(File file, String content) throws IOException {
         FileOutputStream fos = new FileOutputStream(file);
         fos.write(content.getBytes());
@@ -92,24 +115,49 @@ public class FileEditorMavenPluginTest extends TestCase {
         return new String(buffer);
     }
 
-    public void testChangeVersion() throws Exception {
+    public void testChangeRootVersion() throws Exception {
         Script script = new Script();
         script.setScriptFile("script:pom_change_version.bsh");
         File tmpFile = File.createTempFile("fileeditor","test");
-        writeFile(tmpFile, testPom);
+        writeFile(tmpFile, testPomRoot);
         script.setSourcePath(tmpFile.getAbsolutePath());
         scripts = new Scripts();
         scripts.addScript(script);
 
         Variables vars = new Variables();
         vars.setVariable(new Variable("pomVersion", "2.4.8"));
-        vars.setVariable(new Variable("changeParent", "false"));
         script.setVariables(vars);
 
         try {
             femp.execute();
 
             String modified = loadFile(tmpFile);
+            System.out.println(modified);
+            assertTrue(modified.contains("<version>2.4.8</version>"));
+        }
+        finally {
+            tmpFile.delete();
+        }
+    }
+
+    public void testChangeModuleVersion() throws Exception {
+        Script script = new Script();
+        script.setScriptFile("script:pom_change_version.bsh");
+        File tmpFile = File.createTempFile("fileeditor","test");
+        writeFile(tmpFile, testPomModule);
+        script.setSourcePath(tmpFile.getAbsolutePath());
+        scripts = new Scripts();
+        scripts.addScript(script);
+
+        Variables vars = new Variables();
+        vars.setVariable(new Variable("pomVersion", "2.4.8"));
+        script.setVariables(vars);
+
+        try {
+            femp.execute();
+
+            String modified = loadFile(tmpFile);
+            System.out.println(modified);
             assertTrue(modified.contains("<version>2.4.8</version>"));
         }
         finally {
@@ -121,7 +169,7 @@ public class FileEditorMavenPluginTest extends TestCase {
         Script script = new Script();
         script.setScriptFile("script:pom_add_parent.bsh");
         File tmpFile = File.createTempFile("fileeditor","test");
-        writeFile(tmpFile, testPom);
+        writeFile(tmpFile, testPomRoot);
         script.setSourcePath(tmpFile.getAbsolutePath());
         scripts = new Scripts();
         scripts.addScript(script);
@@ -149,11 +197,11 @@ public class FileEditorMavenPluginTest extends TestCase {
         }
     }
 
-    public void testAddSnapshot() throws Exception {
+    public void testAddRootSnapshot() throws Exception {
         Script script = new Script();
         script.setScriptFile("script:pom_add_snapshot_to_version.bsh");
         File tmpFile = File.createTempFile("fileeditor","test");
-        writeFile(tmpFile, testPom);
+        writeFile(tmpFile, testPomRoot);
         script.setSourcePath(tmpFile.getAbsolutePath());
         scripts = new Scripts();
         scripts.addScript(script);
@@ -165,6 +213,32 @@ public class FileEditorMavenPluginTest extends TestCase {
             femp.execute();
 
             String modified = loadFile(tmpFile);
+            System.out.println(modified);
+            assertTrue(modified.contains("<version>1.0-SNAPSHOT</version>"));
+            assertFalse(modified.contains("<version>1.0</version>"));
+        }
+        finally {
+            tmpFile.delete();
+        }
+    }
+
+    public void testAddModuleSnapshot() throws Exception {
+        Script script = new Script();
+        script.setScriptFile("script:pom_add_snapshot_to_version.bsh");
+        File tmpFile = File.createTempFile("fileeditor","test");
+        writeFile(tmpFile, testPomModule);
+        script.setSourcePath(tmpFile.getAbsolutePath());
+        scripts = new Scripts();
+        scripts.addScript(script);
+
+        Variables vars = new Variables();
+        script.setVariables(vars);
+
+        try {
+            femp.execute();
+
+            String modified = loadFile(tmpFile);
+            System.out.println(modified);
             assertTrue(modified.contains("<version>1.0-SNAPSHOT</version>"));
             assertFalse(modified.contains("<version>1.0</version>"));
         }

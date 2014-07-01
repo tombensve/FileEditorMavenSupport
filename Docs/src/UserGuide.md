@@ -2,14 +2,20 @@
 
 This is a trivially simple plugin that lets you run editing scripts on files. The _se.natusoft.tools.fileeditor:FileEditor:n.n_ tool is used for the editing. This is a programmable only text editor. An instance of this called [editor](http://apidoc.natusoft.se/FileEditor/) is always provided to each script.
 
-The main reason for making this plugin is that I'm not OK with Sonatypes requirements for publishing to maven central. They are forcing me to use snapshot version when I have no need for such, and also forcing me to have something from them as top parent. I find a certain Apple/Microsoft arogance at Sonatype, which I don't accept. With this plugin and a profile I can just clone my git repo, run the profile using this plugin to make my poms look like Sonatype requires them to look, run the submit procedure, and then delete the cloned repo.  
+## Changes
+
+### Version 1.1
+
+Bumped versions of dependencies to the latest versions which are also available for download on bintray. I should clean my local maven repo more often to find if I'm using non downloadable dependencies :-). 
+
+Modified the *pom\_add\_snapshot\_to\_version.bsh* and the *pom-change\_version.bsh* scripts to assume that each sub module have the same version as the parent and that for submodules only the parent version is specified. This is the most common case as I see it. Thereby the _modifyParent_ parameter is no longer valid (just ignored). 
 
 ## Plugin example
 
     <plugin>
       <groupId>se.natusoft.maven.plugin</groupId>
       <artifactId>file-editor-maven-plugin</artifactId>
-      <version>1.0.0</version>
+      <version>1.1</version>
  
       <executions>
         <execution>
@@ -80,20 +86,22 @@ Anyone that uses this plugin and makes a generally useful editing script, please
 
     /*
      * This script adds "-SNAPSHOT" to version.
+     *
+     * This script makes the assumption that either the pom is
+     * the top parent and does not have a parent itself in which
+     * case the main model version is updated, otherwise the parent
+     * version is updated. This also assumes that all modules have
+     * the same version as the root pom, and just inherits version
+     * from parent.
      */
     editor.moveToTopOfFile();
     if (editor.find("<project")) {
     
-      // Skip to end of parent to avoid finding parent version. If this is not found
-      // the current position is not moved.
-      editor.findFromCurrent("</parent");
-    
-      if (editor.findFromCurrent("<version>")) {
-        String version = editor.getCurrentLineBetween("<version>", "</version>");
-        if (!version.endsWith("-SNAPSHOT")) {
-          editor.replaceCurrentLineBetween("<version>", "</version>", version + "-SNAPSHOT");
+        if (editor.findFromCurrent("<version>")) {
+            String version = editor.getCurrentLineBetween("<version>", "</version>");
+            editor.replaceCurrentLineBetween("<version>", "</version>", version + "-SNAPSHOT");
         }
-      }
+    
     }
 
 ### script:pom-change_version.bsh
@@ -103,28 +111,20 @@ This script is generally useful when having multi module projects and you keep t
     /*
      * This script replaces the pom version.
      *
+     * This script makes the assumption that either the pom is
+     * the top parent and does not have a parent itself in which
+     * case the main model version is updated, otherwise the parent
+     * version is updated. This also assumes that all modules have
+     * the same version as the root pom, and just inherits version
+     * from parent.
+     *
      * This requires the following variables:
      *   pomVersion - The new version to set to.
-     *   changeParent - This will be converted to a boolean. If true the parent version
-     *                  will also be changed.
      */
     editor.moveToTopOfFile();
     if (editor.find("<project")) {
-    
-      boolean parent = Boolean.valueOf(changeParent);
-    
-      if (parent) {
-        if (editor.findFromCurrent("<parent")) {
-          if (editor.findFromCurrent("<version>")) {
-            editor.replaceCurrentLineBetween("<version>", "</version>", pomVersion);
-          }
-        }
-      }
-    
-      editor.findFromCurrent("</parent")
-    
-      if (editor.findFromCurrent("<version>")) {
-        editor.replaceCurrentLineBetween("<version>", "</version>", pomVersion);
-      }
-    }
 
+        if (editor.findFromCurrent("<version>")) {
+            editor.replaceCurrentLineBetween("<version>", "</version>", pomVersion);
+        }
+    }

@@ -6,7 +6,7 @@
 
     <groupId>se.natusoft.tools.fileeditor</groupId>
     <artifactId>file-editor-maven-support</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
     <packaging>pom</packaging>
 
     <name>File Editor Maven Support</name>
@@ -26,15 +26,16 @@
         FileEditor.
     </description>
     <properties>
-        <copyrightYear>2013</copyrightYear>
-        <copyrightHolder>Natusoft AB</copyrightHolder>
-        <copyrightHolderWeb>http://www.natusoft.se/</copyrightHolderWeb>
+        <!-- versions -->
+        <clm.ver>2.1.2</clm.ver>
+        <fileeditor.ver>2.0.2</fileeditor.ver>
+        <md.ver>1.3.2</md.ver>
     </properties>
     <organization>
-        <name>${copyrightHolder}</name>
-        <url>${copyrightHolderWeb}</url>
+        <name>Natusoft AB</name>
+        <url>http://www.natusoft.se/</url>
     </organization>
-    <inceptionYear>${copyrightYear}</inceptionYear>
+    <inceptionYear>2013</inceptionYear>
     <licenses>
         <license>
             <name>Apache 2.0</name>
@@ -56,13 +57,13 @@
             <plugin>
                 <groupId>se.natusoft.tools.codelicmgr</groupId>
                 <artifactId>CodeLicenseManager-maven-plugin</artifactId>
-                <version>2.0</version>
+                <version>${clm.ver}</version>
 
                 <dependencies>
                     <dependency>
                         <groupId>se.natusoft.tools.codelicmgr</groupId>
                         <artifactId>CodeLicenseManager-licenses-common-opensource</artifactId>
-                        <version>2.0</version>
+                        <version>${clm.ver}</version>
                     </dependency>
                 </dependencies>
 
@@ -103,13 +104,13 @@
                     <plugin>
                         <groupId>se.natusoft.tools.doc.markdowndoc</groupId>
                         <artifactId>markdowndoc-maven-plugin</artifactId>
-                        <version>1.2.10</version>
+                        <version>${md.ver}</version>
 
                         <dependencies>
                             <dependency>
                                 <groupId>se.natusoft.tools.doc.markdowndoc</groupId>
                                 <artifactId>markdown-doc-lib</artifactId>
-                                <version>1.2.10</version>
+                                <version>${md.ver}</version>
                             </dependency>
                         </dependencies>
 
@@ -207,23 +208,23 @@
 
                         <groupId>se.natusoft.tools.codelicmgr</groupId>
                         <artifactId>CodeLicenseManager-maven-plugin</artifactId>
-                        <version>2.0</version>
+                        <version>${clm.ver}</version>
 
                         <dependencies>
                             <dependency>
                                 <groupId>se.natusoft.tools.codelicmgr</groupId>
                                 <artifactId>CodeLicenseManager-licenses-common-opensource</artifactId>
-                                <version>2.0</version>
+                                <version>${clm.ver}</version>
                             </dependency>
                             <dependency>
                                 <groupId>se.natusoft.tools.codelicmgr</groupId>
                                 <artifactId>CodeLicenseManager-source-updater-slashstar-comment</artifactId>
-                                <version>2.0</version>
+                                <version>${clm.ver}</version>
                             </dependency>
                             <dependency>
                                 <groupId>se.natusoft.tools.codelicmgr</groupId>
                                 <artifactId>CodeLicenseManager-source-updater-html-xml</artifactId>
-                                <version>2.0</version>
+                                <version>${clm.ver}</version>
                             </dependency>
                         </dependencies>
 
